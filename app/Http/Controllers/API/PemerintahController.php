@@ -32,4 +32,13 @@ class PemerintahController extends Controller
             ], 401);
         }
     }
+
+
+    public function getTotalSampahSeluruhBSU(Request $request)
+    {
+        return response()
+        ->json([
+            "bisa"
+        ], 200);
+    }
 }
