@@ -62,7 +62,6 @@ class PemerintahController extends Controller
             "status" => true,
             "data" => [
                 "total_sampah" => $total_sampah,
-                "transaksi" => $responseData['data'], // jika ingin kirim pagination info juga
             ]
         ]);
     }
