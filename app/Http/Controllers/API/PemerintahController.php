@@ -35,15 +35,15 @@ class PemerintahController extends Controller
     }
 
 
-    public function getTotalSampahSeluruhBSU(Request $request)
+    public function getTransaksiSeluruhBSU(Request $request)
     {
         $token = $request->get("token");
-
+        $perPage = $request->get('per_page', 10); // default 10 data per halaman
         $client = new Client([
             "timeout" => 5
         ]);
 
-        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu", [
+        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu?per_page=".$perPage, [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -51,10 +51,27 @@ class PemerintahController extends Controller
             ]
         ]);
 
-        $transaksi = json_decode($response->getBody()->getContents(), true);
+        $transaksi = json_decode($response->getBody()->getContents(), true)['data'];
+        
+        $total_sampah = 0;
+        foreach($transaksi as $index => $item)
+        {
+            foreach($item['detail_transaksi'] as $index1 => $item1)
+            {
+                $total_sampah += $item1['berat'];
+            }
+        }
 
-        return response()->json([
-            $transaksi['data']
-        ]);
+        return response()
+        ->json([
+            "status" => true,
+            "data" => [
+                "total_sampah" => $total_sampah,
+                "transaksi" => $transaksi
+            ]
+            ]);
+
+
+       
     }
 }
