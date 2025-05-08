@@ -38,10 +38,9 @@ class PemerintahController extends Controller
     public function getTransaksiSeluruhBSU(Request $request)
     {
         $token = $request->get("token");
-        $perPage = $request->get('per_page', 10);
         $client = new Client(["timeout" => 5]);
     
-        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu?per_page=".$perPage, [
+        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu", [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -50,7 +49,7 @@ class PemerintahController extends Controller
         ]);
     
         $responseData = json_decode($response->getBody()->getContents(), true);
-        $transaksi = $responseData['data']['data']; // ambil array transaksi
+        $transaksi = $responseData['data']; // ambil array transaksi
     
         $total_sampah = 0;
         foreach ($transaksi as $item) {
@@ -63,9 +62,28 @@ class PemerintahController extends Controller
             "status" => true,
             "data" => [
                 "total_sampah" => $total_sampah,
-                "pagination" => $responseData['data'], // jika ingin kirim pagination info juga
+                "transaksi" => $responseData['data'], // jika ingin kirim pagination info juga
             ]
         ]);
     }
+
+    public function getNasabahSeluruhBSU(Request $request)
+    {
+        $token = $request->get("token");
+        $perPage = $request->get("per_page", 10);
+        $client = new Client(['timeout' => 5]);
+
+        $response = $client->request("GET", "http://145.79.10.111:8004/api/v1/nasabah/cek-seluruh-nasabah?per_page".$perPage, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => $token,
+            ]
+        ]);
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        $nasabah = $responseData['data']['data']; // ambil array transaksi
+
+    }
+
     
 }
