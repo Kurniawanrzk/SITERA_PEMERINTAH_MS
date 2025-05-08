@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Controllers\API\PemerintahController;
+use App\Http\Controllers\API\PemerintahController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
