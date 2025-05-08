@@ -18,6 +18,7 @@ Route::prefix("v1/pemerintah")->group(function() {
     Route::get("cek-user/{user_id}", [PemerintahController::class, "cekUser"]);
 
     Route::middleware("checkifpemerintah")->group(function(){
-        Route::get("transaksi-seluruh-bsu", [PemerintahController::class, "getTransaksiSeluruhBSU"]);
+        Route::get("total-sampah-keseluruhan", [PemerintahController::class, "getTransaksiSeluruhBSU"]);
+        Route::get("total-nasabah-keseluruhan", [PemerintahController::class, "getNasabahSeluruhBSU"]);
     });
 });
