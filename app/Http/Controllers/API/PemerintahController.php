@@ -19,7 +19,10 @@ class PemerintahController extends Controller
             return response()
             ->json([
                 "status" => true,
-                "data" => $pemerintah->first()
+                "data" => [
+                    "id" => $pemerintah->first()->id,
+                    "nama" => $pemerintah->first()->nama_instansi
+                ]
             ], 200);
         } else {
             return response()
