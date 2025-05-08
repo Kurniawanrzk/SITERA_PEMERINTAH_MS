@@ -40,7 +40,7 @@ class PemerintahController extends Controller
         $token = $request->get("token");
         $client = new Client(["timeout" => 5]);
     
-        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu", [
+        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu-pemerintah", [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -88,6 +88,7 @@ class PemerintahController extends Controller
         ], 200);
 
     }
+    
 
     
 }
