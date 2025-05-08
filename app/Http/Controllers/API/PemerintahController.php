@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{
     Pemerintah
 };
+use GuzzleHttp\Client;
 
 class PemerintahController extends Controller
 {
@@ -36,9 +37,24 @@ class PemerintahController extends Controller
 
     public function getTotalSampahSeluruhBSU(Request $request)
     {
-        return response()
-        ->json([
-            "bisa"
-        ], 200);
+        $token = $request->get("token");
+
+        $client = new Client([
+            "timeout" => 5
+        ]);
+
+        $response = $client->request("GET", "http://145.79.10.111:8003/api/v1/bsu/cek-semua-transaksi-bsu", [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => $token,
+            ]
+        ]);
+
+        $transaksi = json_decode($response->getBody()->getContents(), true);
+
+        return response()->json([
+            $transaksi['data']
+        ]);
     }
 }
